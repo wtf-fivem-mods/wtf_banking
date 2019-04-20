@@ -1,20 +1,19 @@
 import { Component } from 'preact';
-import { connect } from 'preact-redux';
+import { connect } from 'redux-zero/preact';
 import { Link } from 'preact-router/match';
-import * as actions from '../actions';
-import reduce from '../reducers';
+import actions from '../actions';
 import style from './style';
 
-@connect(reduce, actions)
+@connect(({ shown }) => ({ shown }), actions)
 export default class Home extends Component {
-    render({ app, showUI }) {
+    render({ shown, showUI }) {
         return (
             <header class={style.debugHeader}>
                 <nav>
                     <span>DEBUG MENU</span>
                     <Link href="/">Home</Link>
                     <Link href="/test">Test</Link>
-                    {app.shown ?
+                    {shown ?
                         <a onclick={() => showUI(false)}>Hide</a> :
                         <a onclick={() => showUI(true)}>Show</a>}
                 </nav>

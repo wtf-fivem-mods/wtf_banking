@@ -20,7 +20,8 @@
     "eslint": "^4.5.0",
     "eslint-config-synacor": "^1.1.0",
     "if-env": "^1.0.0",
-    "preact-cli": "^2.0.0"
+    "preact-cli": "^2.0.0",
+    "webpack-visualizer-plugin": "^0.1.11"
   },
   "dependencies": {
     "decko": "^1.2.0",
@@ -28,9 +29,8 @@
     "node-sass": "^4.11.0",
     "preact": "^8.4.2",
     "preact-compat": "^3.17.0",
-    "preact-redux": "^2.0.3",
     "preact-router": "^2.6.1",
-    "redux": "^4.0.1",
+    "redux-zero": "^5.0.2",
     "sass-loader": "^7.1.0"
   }
 }

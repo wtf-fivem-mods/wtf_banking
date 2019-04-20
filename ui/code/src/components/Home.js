@@ -1,19 +1,15 @@
 import { Component } from 'preact';
-import { connect } from 'preact-redux';
+import { connect } from 'redux-zero/preact';
 import { Link } from 'preact-router/match';
-import reduce from '../reducers';
-import * as actions from '../actions';
+import actions from '../actions';
 
-@connect(reduce, actions)
+@connect(state => state, actions)
 export default class Home extends Component {
-	dismiss() {
-		this.props.showUI(false)
-	}
-	render({ app }) {
+	render({ dismissUI }) {
 		return (<div>
 			<h1>Hello, WTF Banking!</h1>
 			<Link href="/test">Test</Link>
-			<button onClick={this.dismiss.bind(this)}>Dismiss</button>
+			<button onClick={dismissUI}>Dismiss</button>
 		</div>);
 	}
 }

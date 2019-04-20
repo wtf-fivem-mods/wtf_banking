@@ -1,19 +1,18 @@
 import createHashHistory from 'history/createHashHistory';
 import { Component } from 'preact';
-import { connect } from 'preact-redux';
+import { connect } from 'redux-zero/preact';
 import Router from 'preact-router';
-import * as actions from '../actions';
-import reduce from '../reducers';
+import actions from '../actions';
 import Home from "./Home";
 import style from './style';
 import Test from "./Test";
 
 
-@connect(reduce, actions)
+@connect(({ shown }) => ({ shown }), actions)
 export default class App extends Component {
-	render({ app }) {
+	render({ shown }) {
 		return (
-            <div class={app.shown ? style.app : style.hideUI}>
+            <div class={shown ? style.app : style.hideUI}>
                 <Router history={createHashHistory()}>
                         <Home path="/" />
                         <Test path="/test" />

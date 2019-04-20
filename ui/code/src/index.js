@@ -1,28 +1,30 @@
-import { Component } from 'preact';
-import { connect, Provider } from 'preact-redux';
-import reduce from './reducers';
-import * as actions from './actions';
+import { connect, Provider } from 'redux-zero/preact';
+import { bindActions } from 'redux-zero/utils';
+import actions from './actions';
 import App from './components/App';
 import Debug from './components/Debug';
 import store from './store';
+import { Component } from 'preact';
+
+const boundActions = bindActions(actions, store)
 
 if (typeof window.invokeNative === 'undefined') {
-    store.dispatch(actions.showUI(true))
-    store.dispatch(actions.setDebug(true))
+    boundActions.showUI(true)
+    boundActions.setDebug(true)
 }
 
 window.addEventListener('message', (e) => {
     switch (e.data.type) {
         case 'open':
-            store.dispatch(actions.showUI(true))
+            boundActions.showUI(true)
             break;
     }
 });
 
-@connect(reduce, actions)
+@connect(({ debug }) => ({ debug }), actions)
 class Main extends Component {
-    render({ app }) {
-        return app.debug ? (
+    render({ debug }) {
+        return debug ? (
             <div>
                 <Debug />
                 <App />

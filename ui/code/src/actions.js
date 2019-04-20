@@ -1,17 +1,17 @@
-export function setDebug(debug) {
-	return {
-		type: 'SET_DEBUG',
-		debug 
-	};
-}
+import { route } from 'preact-router';
 
-export function showUI(shown) {
-	if (shown === false) {
-		// tell game client
-		fetch('http://wtf_banking/dismiss', { method: 'POST' });
+const actions = store => ({
+	setDebug: (state, debug) => ({ debug }),
+	showUI: (state, shown) => {
+		if (shown === false) {
+			route('/')
+		}
+		return { shown }
+	},
+	dismissUI: (state) => {
+		fetch('http://wtf_banking/dismiss', { method: 'POST' }) // ignore whether it returns or not
+		return actions(store).showUI(state, false)
 	}
-	return {
-		type: 'SHOW_UI',
-		shown
-	};
-}
+})
+
+export default actions
