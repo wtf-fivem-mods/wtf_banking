@@ -7,10 +7,10 @@ import * as actions from '../actions';
 @connect(reduce, actions)
 export default class Home extends Component {
 	dismiss() {
-		this.props.hideUI()
+		this.props.showUI(false)
 	}
 	render({ app }) {
-		return (<div style={{ display: app.shown ? 'block' : 'none' }}>
+		return (<div>
 			<h1>Hello, WTF Banking!</h1>
 			<Link href="/test">Test</Link>
 			<button onClick={this.dismiss.bind(this)}>Dismiss</button>

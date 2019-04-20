@@ -1,30 +1,38 @@
-import { Provider } from 'preact-redux';
-import Router from 'preact-router'
-import { h, render } from 'preact'
-import createHashHistory from 'history/createHashHistory'
-
-import store from './store';
+import { Component } from 'preact';
+import { connect, Provider } from 'preact-redux';
+import reduce from './reducers';
 import * as actions from './actions';
+import App from './components/App';
+import Debug from './components/Debug';
+import store from './store';
 
-import Home from "./components/Home"
-import Test from "./components/Test"
-import './style'
+if (typeof window.invokeNative === 'undefined') {
+    store.dispatch(actions.showUI(true))
+    store.dispatch(actions.setDebug(true))
+}
 
 window.addEventListener('message', (e) => {
     switch (e.data.type) {
         case 'open':
-            store.dispatch(actions.showUI())
+            store.dispatch(actions.showUI(true))
             break;
     }
 });
 
-const Main = () => (
-    <Provider store={store}>
-        <Router history={createHashHistory()}>
-            <Home path="/" />
-            <Test path="/test" />
-        </Router>
-    </Provider>
-);
+@connect(reduce, actions)
+class Main extends Component {
+    render({ app }) {
+        return app.debug ? (
+            <div>
+                <Debug />
+                <App />
+            </div>
+        ) : <App />
+    }
+}
 
-render(<Main />, document.getElementById('app'));
+export default () => (
+    <Provider store={store}>
+        <Main />
+    </Provider>
+)

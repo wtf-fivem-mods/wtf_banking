@@ -1,14 +1,17 @@
-export function hideUI(text) {
-    fetch('http://wtf_banking/dismiss', { method: 'POST' });
+export function setDebug(debug) {
 	return {
-		type: 'DISPLAY_UI',
-		shown: false
+		type: 'SET_DEBUG',
+		debug 
 	};
 }
 
-export function showUI(text) {
+export function showUI(shown) {
+	if (shown === false) {
+		// tell game client
+		fetch('http://wtf_banking/dismiss', { method: 'POST' });
+	}
 	return {
-		type: 'DISPLAY_UI',
-		shown: true
+		type: 'SHOW_UI',
+		shown
 	};
 }

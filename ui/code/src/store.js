@@ -1,18 +1,26 @@
 import { createStore } from 'redux';
 
 let ACTIONS = {
-    DISPLAY_UI: ({ app, ...state}, { shown }) => ({
+    SET_DEBUG: ({ app, ...state }, { debug }) => ({
         app: {
             ...app,
-            shown: shown
+            debug: debug,
         },
         ...state
-    })
+    }),
+    SHOW_UI: ({ app, ...state }, { shown }) => ({
+        app: {
+            ...app,
+            shown: shown,
+        },
+        ...state
+    }),
 }
 
 const INITIAL = {
 	app: {
-        shown: false
+        debug: false,
+        shown: false,
     }
 }
 
