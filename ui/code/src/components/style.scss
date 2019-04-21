@@ -59,11 +59,168 @@ body {
 
 .app {
   border: 1px solid red;
-  width: 600px;
-  height: 400px;
+  width: 500px;
+  height: 700px;
   background-color: white;
 }
 
 h1 {
   text-align: center;
+}
+
+.navHeader {
+  background-color: #b80e2b;
+  padding-bottom: 6px;
+  height: 80px;
+}
+
+.wtfLogo {
+  background: url(assets/wtf-txt-logo.png);
+  background-size: cover;
+  height: 45px;
+  width: 102px;
+}
+
+// ===================================
+// HAMBURGER MENU
+// ===================================
+#menuToggle {
+  display: block;
+  position: relative;
+  top: 5px;
+  left: 15px;
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menuToggle input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+  cursor: pointer;
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+  -webkit-touch-callout: none;
+}
+
+/*
+   * Just a quick hamburger
+   */
+#menuToggle span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background: rgb(255, 255, 255);
+  border-radius: 3px;
+  z-index: 1;
+  transform-origin: 4px 0px;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+// =====================================
+// Account List
+// =====================================
+.accountsTitle {
+  color: #979797;
+  padding-left: 15px;
+  font-weight: bold;
+}
+
+.accountBox {
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  margin: 0 15px;
+  margin-bottom: 100px;
+
+  .accountNum {
+    color: #979797;
+    padding-left: 15px;
+    font-size: 20px;
+    margin: 5px 0;
+  }
+  .accountBal {
+    color: #858585;
+    font-size: 50px;
+    margin: 0;
+    padding: 0 15px;
+    letter-spacing: 2px;
+  }
+  .availableBal {
+    color: #979797;
+    padding-left: 15px;
+    font-size: 20px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-weight: 100;
+  }
+}
+
+// =====================================
+// Action Buttons
+// =====================================
+.actionButtons {
+  margin-top: 30px;
+}
+
+.button {
+  background-color: #e7e6e6;
+  border-top: 2px solid #858585;
+  height: 80px;
+  display: flex;
+  align-items: flex-start;
+  padding: 15px;
+}
+
+.buttonIcon {
+  align-self: center;
+}
+
+.buttonTitle {
+  align-self: center;
+  margin: 0 50px;
+  color: #979797;
+  font-size: 30px;
+}
+
+.buttonIcon1 {
+  align-self: center;
+  background: url(assets/wtf-deposit2-icon.png);
+  height: 50px;
+  width: 50px;
+}
+
+.buttonIcon2 {
+  align-self: center;
+  background: url(assets/wtf-withdrawal2-icon.png);
+  height: 50px;
+  width: 50px;
+}
+
+.buttonIcon3 {
+  align-self: center;
+  background: url(assets/wtf-transfer2-icon.png);
+  height: 50px;
+  width: 50px;
+}
+
+.buttonIcon4 {
+  align-self: center;
+  background: url(assets/wtf-exit2-icon.png);
+  height: 50px;
+  width: 50px;
 }

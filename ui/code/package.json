@@ -11,10 +11,10 @@
     "lint": "eslint src"
   },
   "prettier": {
-      "trailingComma": "es5",
-      "tabWidth": 2,
-      "semi": false,
-      "singleQuote": true
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
   },
   "devDependencies": {
     "dynamic-cdn-webpack-plugin": "^3.4.1",
