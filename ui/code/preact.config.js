@@ -2,9 +2,8 @@ import Visualizer from 'webpack-visualizer-plugin'
 import DynamicCdnWebpackPlugin from 'dynamic-cdn-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-
 export default (config, env, helpers) => {
-  config.output.filename = "[name].js"
+  config.output.filename = '[name].js'
   config.output.publicPath = ''
 
   // disable polyfills, not needed
@@ -21,7 +20,7 @@ export default (config, env, helpers) => {
   }
   // overwrite hash in css name
   {
-    let { plugin } = helpers.getPluginsByName(config, "ExtractTextPlugin")[0]
+    let { plugin } = helpers.getPluginsByName(config, 'ExtractTextPlugin')[0]
     plugin.filename = 'style.css'
   }
   // don't process url() in css/scss
@@ -30,7 +29,9 @@ export default (config, env, helpers) => {
     loader.options.url = false
   }
 
-  config.plugins.push(new HtmlWebpackPlugin({ filename: 'index.html', template: 'index.html' }))
+  config.plugins.push(
+    new HtmlWebpackPlugin({ filename: 'index.html', template: 'index.html' })
+  )
   config.plugins.push(new DynamicCdnWebpackPlugin())
   config.plugins.push(new Visualizer({ filename: './statistics.html' }))
-};
+}
