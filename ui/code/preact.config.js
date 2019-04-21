@@ -1,12 +1,31 @@
 import Visualizer from 'webpack-visualizer-plugin'
+import DynamicCdnWebpackPlugin from 'dynamic-cdn-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+
 
 export default (config, env, helpers) => {
-  delete config.entry.polyfills;
-  config.output.filename = "[name].js";
-  config.output.publicPath = '';
-  config.plugins.push(new Visualizer({
-    filename: './statistics.html'
-  }))
-  let { plugin } = helpers.getPluginsByName(config, "ExtractTextPlugin")[0];
-  plugin.options.disable = true;
+  config.output.filename = "[name].js"
+  config.output.publicPath = ''
+
+  // disable polyfills, not needed
+  delete config.entry.polyfills
+
+  // disable default html-webpack-plugin
+  {
+    let { index } = helpers.getPluginsByName(config, 'HtmlWebpackPlugin')[0]
+    config.plugins.splice(index, 1)
+  }
+  {
+    let { index } = helpers.getPluginsByName(config, 'PushManifestPlugin')[0]
+    config.plugins.splice(index, 1)
+  }
+  // overwrite hash in css name
+  {
+    let { plugin } = helpers.getPluginsByName(config, "ExtractTextPlugin")[0]
+    plugin.filename = 'style.css'
+  }
+
+  config.plugins.push(new HtmlWebpackPlugin({ filename: 'index.html', template: 'index.html' }))
+  config.plugins.push(new DynamicCdnWebpackPlugin())
+  config.plugins.push(new Visualizer({ filename: './statistics.html' }))
 };
