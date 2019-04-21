@@ -24,6 +24,11 @@ export default (config, env, helpers) => {
     let { plugin } = helpers.getPluginsByName(config, "ExtractTextPlugin")[0]
     plugin.filename = 'style.css'
   }
+  // don't process url() in css/scss
+  {
+    let { loader } = helpers.getLoadersByName(config, 'css-loader')[0]
+    loader.options.url = false
+  }
 
   config.plugins.push(new HtmlWebpackPlugin({ filename: 'index.html', template: 'index.html' }))
   config.plugins.push(new DynamicCdnWebpackPlugin())

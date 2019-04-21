@@ -6,6 +6,12 @@ import style from './style';
 
 @connect(({ shown }) => ({ shown }), actions)
 export default class Home extends Component {
+    componentWillMount() {
+        document.body.classList.add(style.debugBg)
+    }
+    componentWillUnmount() {
+        document.body.classList.remove(style.debugBg)
+    }
     render({ shown, showUI }) {
         return (
             <header class={style.debugHeader}>
