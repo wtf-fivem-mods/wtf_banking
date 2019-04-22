@@ -5,12 +5,22 @@ UI_CODE = $(call rwildcard, ui-src/src, *)
 UI_CODE += $(wildcard ui-src/*.*)
 SOURCES = $(wildcard *.* client/*)
 SOURCES := $(filter-out README.md, $(SOURCES))
+UI_BUNDLE=ui-build/bundle.js
 
-README.md: $(SOURCES) ui-build/bundle.js
+default: $(UI_BUNDLE) README.md
+
+all: check-devserver $(UI_BUNDLE) README.md
+
+README.md: $(SOURCES) $(UI_CODE)
 	-robocopy . //fivem.sszt.ml/server-data/resources/[wtf]/wtf_banking /MIR /FFT /Z /XA:H /W:5 \
 		/XD "${PWD}\.git" \
 			"${PWD}\ui-src"
 	copy /b README.md +,,
 
-ui-build/bundle.js: $(UI_CODE)
+$(UI_BUNDLE): $(UI_CODE)
 	cd ui-src && yarn build
+
+check-devserver:
+	@netstat -nao | findstr "LISTENING" | findstr "0:3000" >nul 2>nul && (echo dev-server running, stopping 1>&2 && exit 1) || (echo dev-server not running, continuing 1>&2)
+
+.PHONY: default all
