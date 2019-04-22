@@ -1,10 +1,10 @@
-import { route } from 'preact-router'
+import history from './history'
 
 const actions = store => ({
   setDebug: (state, debug) => ({ debug }),
   showUI: (state, shown) => {
     if (shown === false) {
-      route('/')
+      history.push('/')
     }
     return { shown }
   },

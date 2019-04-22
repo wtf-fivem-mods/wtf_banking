@@ -1,10 +1,12 @@
-import { connect, Provider } from 'redux-zero/preact'
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import { connect, Provider } from 'redux-zero/react'
 import { bindActions } from 'redux-zero/utils'
 import actions from './actions'
 import App from './components/App'
 import Debug from './components/Debug'
 import store from './store'
-import { Component } from 'preact'
+import { HashRouter as Router } from 'react-router-dom'
 
 const boundActions = bindActions(actions, store)
 
@@ -18,6 +20,7 @@ window.addEventListener('message', e => {
     case 'open':
       boundActions.showUI(true)
       break
+    default:
   }
 })
 
@@ -26,20 +29,20 @@ window.addEventListener('message', e => {
   actions
 )
 class Main extends Component {
-  render({ debug }) {
-    return debug ? (
-      <div>
-        <Debug />
+  render() {
+    const { debug } = this.props
+    return (
+      <Router>
+        {debug ? <Debug /> : null}
         <App />
-      </div>
-    ) : (
-      <App />
+      </Router>
     )
   }
 }
 
-export default () => (
+ReactDOM.render(
   <Provider store={store}>
     <Main />
-  </Provider>
+  </Provider>,
+  document.getElementById('root')
 )

@@ -1,17 +1,16 @@
 PWD := $(shell echo %cd%)
 
 rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
-UI_CODE = $(call rwildcard, ui/code/src, *)
-UI_CODE += $(wildcard ui/code/*.*)
+UI_CODE = $(call rwildcard, ui-src/src, *)
+UI_CODE += $(wildcard ui-src/*.*)
 SOURCES = $(wildcard *.* client/*)
 SOURCES := $(filter-out README.md, $(SOURCES))
-UI_BUILD = ui/build/bundle.js
 
-README.md: $(SOURCES) $(UI_BUILD)
+README.md: $(SOURCES) ui-build/bundle.js
 	-robocopy . //fivem.sszt.ml/server-data/resources/[wtf]/wtf_banking /MIR /FFT /Z /XA:H /W:5 \
 		/XD "${PWD}\.git" \
-			"${PWD}\ui\code"
+			"${PWD}\ui-src"
 	copy /b README.md +,,
 
-$(UI_BUILD): $(UI_CODE)
-	cd ui/code && npm run build
+ui-build/bundle.js: $(UI_CODE)
+	cd ui-src && yarn build
