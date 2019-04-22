@@ -16,13 +16,14 @@ export default class Home extends Component {
           style="display: flex; align-items: center; flex-direction: row;"
           class={style.navHeader}
         >
-          <div id={style.menuToggle}>
+          <div style="flex: 1;" id={style.menuToggle}>
             <input type="checkbox" />
             <span />
             <span />
             <span />
           </div>
-          <div style="margin: 0 auto;" class={style.wtfLogo} />
+          <div class={style.wtfLogo} />
+          <div style="flex: 1;" />
         </div>
 
         <div>
