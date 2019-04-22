@@ -34,19 +34,21 @@ export default class Home extends Component {
             <p class={style.accountBal}>$999,999.00</p>
             <p class={style.availableBal}>Available Balance</p>
           </div>
-          <div>
-            {/* <h1>Hello, WTF Banking!</h1> */}
+          {/* <div>
+            <h1>Hello, WTF Banking!</h1>
             <Link href="/test">Test</Link>
             <button onClick={dismissUI}>Dismiss</button>
-            {/* <AccountButton title="Checking" subtitle="Balance: $100" />
-            <AccountButton title="Savings" subtitle="Balance: -$100" /> */}
-          </div>
+            <AccountButton title="Checking" subtitle="Balance: $100" />
+            <AccountButton title="Savings" subtitle="Balance: -$100" />
+          </div> */}
 
           <div class={style.actionButtons}>
-            <div class={style.button}>
-              <div class={style.buttonIcon1} />
-              <div class={style.buttonTitle}>Deposit</div>
-            </div>
+            <Link href="/test">
+              <div class={style.button}>
+                <div class={style.buttonIcon1} />
+                <div class={style.buttonTitle}>Deposit(test)</div>
+              </div>
+            </Link>
             <div class={style.button}>
               <div class={style.buttonIcon2} />
               <div class={style.buttonTitle}>Withdrawal</div>
@@ -55,9 +57,9 @@ export default class Home extends Component {
               <div class={style.buttonIcon3} />
               <div class={style.buttonTitle}>Transfer</div>
             </div>
-            <div class={style.button}>
+            <div class={style.button} onClick={dismissUI}>
               <div class={style.buttonIcon4} />
-              <div class={style.buttonTitle}>Exit</div>
+              <div class={style.buttonTitle}>Exit(dismiss)</div>
             </div>
           </div>
         </div>
