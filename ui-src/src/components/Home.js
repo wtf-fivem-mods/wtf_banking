@@ -13,26 +13,22 @@ export default connect(
   actions
 )(({ dismissUI }) => (
   <div>
-    <div>
-      <div>
-        <AccountTitle>Your Account:</AccountTitle>
-      </div>
-      <AccountBox>
-        <p>Checking ... 1337</p>
-        <p>$999,999.00</p>
-        <p>Available Balance</p>
-      </AccountBox>
-      <ActionButtons>
-        <Link to="/test">
-          <Button icon={depositIcon}>Deposit(test)</Button>
-        </Link>
-        <Button icon={withdrawalIcon}>Withdrawal</Button>
-        <Button icon={transferIcon}>Transfer</Button>
-        <Button icon={exitIcon} onClick={dismissUI}>
-          Exit(dismiss)
-        </Button>
-      </ActionButtons>
-    </div>
+    <AccountTitle>Your Account:</AccountTitle>
+    <AccountBox>
+      <p>Checking ... 1337</p>
+      <p>$999,999.00</p>
+      <p>Available Balance</p>
+    </AccountBox>
+    <ActionButtons>
+      <Link to="/test">
+        <Button icon={depositIcon}>Deposit(test)</Button>
+      </Link>
+      <Button icon={withdrawalIcon}>Withdrawal</Button>
+      <Button icon={transferIcon}>Transfer</Button>
+      <Button icon={exitIcon} onClick={dismissUI}>
+        Exit(dismiss)
+      </Button>
+    </ActionButtons>
   </div>
 ))
 

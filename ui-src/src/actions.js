@@ -1,7 +1,6 @@
 import history from './history'
 
 const actions = store => ({
-  setDebug: (state, debug) => ({ debug }),
   showUI: (state, shown) => {
     if (shown === false) {
       history.push('/')
