@@ -21,6 +21,6 @@ $(UI_BUNDLE): $(UI_CODE)
 	cd ui-src && yarn build
 
 check-devserver:
-	@netstat -nao | findstr "LISTENING" | findstr "0:3000" >nul 2>nul && (echo dev-server running, stopping 1>&2 && exit 1) || (echo dev-server not running, continuing 1>&2)
+	@netstat -nao | findstr "LISTENING" | findstr "0:3000" >nul 2>nul && (echo dev-server running, stopping 1>&2 && exit 1) || exit 0
 
 .PHONY: default all
