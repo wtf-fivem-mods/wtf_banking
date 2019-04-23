@@ -6,6 +6,8 @@ import actions from '../actions'
 import Header from './Header'
 import Home from './Home'
 import Test from './Test'
+import Deposit from './Deposit'
+import Withdrawal from './Withdrawal'
 
 export default connect(
   ({ shown }) => ({ shown }),
@@ -17,13 +19,15 @@ export default connect(
       <Header />
       <Route exact path="/" component={Home} />
       <Route path="/test" component={Test} />
+      <Route path="/deposit" component={Deposit} />
+      <Route path="/withdrawal" component={Withdrawal} />
     </App>
   </>
 ))
 
 const App = styled.div`
   width: 500px;
-  height: 720px;
+  height: 600px;
   background-color: white;
   display: ${props => (props.shown ? 'block' : 'none')};
 `

@@ -4,8 +4,6 @@ import { connect } from 'redux-zero/react'
 import styled from 'styled-components/macro'
 import actions from '../actions'
 import depositIcon from './images/wtf-deposit2-icon.png'
-import withdrawalIcon from './images/wtf-withdrawal2-icon.png'
-import transferIcon from './images/wtf-transfer2-icon.png'
 import exitIcon from './images/wtf-exit2-icon.png'
 
 export default connect(
@@ -15,26 +13,19 @@ export default connect(
   <div>
     <div>
       <div>
-        <AccountTitle>Your Account:</AccountTitle>
+        <DepositTitle>Checking account Balance: $999,999.00</DepositTitle>
       </div>
-      <AccountBox>
-        <p>Checking ... 1337</p>
-        <p>$999,999.00</p>
-        <p>Available Balance</p>
-      </AccountBox>
+      <DepositBox>
+        <p>Amount to deposit:</p>
+        <input required pattern="[0-9]" />
+      </DepositBox>
       <ActionButtons>
-        <Link to="/deposit">
+        <Link to="/">
           <Button icon={depositIcon}>Deposit</Button>
         </Link>
-        <Link to="/withdrawal">
-          <Button icon={withdrawalIcon}>Withdrawal</Button>
+        <Link to="/">
+          <Button icon={exitIcon}>Cancel</Button>
         </Link>
-        <Link to="/test">
-          <Button icon={transferIcon}>Transfer(test)</Button>
-        </Link>
-        <Button icon={exitIcon} onClick={dismissUI}>
-          Exit(dismiss)
-        </Button>
       </ActionButtons>
     </div>
   </div>
@@ -47,38 +38,33 @@ const Button = ({ icon, children, onClick }) => (
   </StyledButton>
 )
 
-const AccountTitle = styled.p`
+const DepositTitle = styled.p`
   color: #979797;
+  margin: 30px 0;
   padding-left: 15px;
   font-weight: bold;
+  font-size: 15px;
   text-transform: uppercase;
 `
-const AccountBox = styled.div`
+const DepositBox = styled.div`
   border: 1px solid #c7c7c7;
   border-radius: 5px;
   margin: 0 15px;
-  margin-bottom: 52px;
+  padding: 15px;
+  margin-bottom: 144px;
 
   p :nth-child(1) {
     color: #979797;
-    padding-left: 15px;
-    font-size: 20px;
+    font-size: 30px;
     margin: 5px 0;
   }
-  p :nth-child(2) {
-    color: #858585;
-    font-size: 50px;
-    margin: 0;
-    padding: 0 15px;
-    letter-spacing: 2px;
-  }
-  p :nth-child(3) {
-    color: #979797;
-    padding-left: 15px;
-    font-size: 20px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    font-weight: 100;
+  input {
+    width: 425px;
+    height: 50px;
+    margin-top: 30px;
+    border: 2px solid #c7c7c7;
+    border-radius: 5px;
+    font-size: 30px;
   }
 `
 const ActionButtons = styled.div`
