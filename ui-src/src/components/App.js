@@ -8,6 +8,7 @@ import Home from './Home'
 import Test from './Test'
 import Deposit from './Deposit'
 import Withdrawal from './Withdrawal'
+import Transfer from './Transfer'
 
 export default connect(
   ({ shown }) => ({ shown }),
@@ -21,6 +22,7 @@ export default connect(
       <Route path="/test" component={Test} />
       <Route path="/deposit" component={Deposit} />
       <Route path="/withdrawal" component={Withdrawal} />
+      <Route path="/transfer" component={Transfer} />
     </App>
   </>
 ))

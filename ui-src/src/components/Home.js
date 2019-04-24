@@ -27,11 +27,11 @@ export default connect(
       <Link to="/withdrawal">
         <Button icon={withdrawalIcon}>Withdrawal</Button>
       </Link>
-      <Link to="/test">
-        <Button icon={transferIcon}>Transfer(test)</Button>
+      <Link to="/transfer">
+        <Button icon={transferIcon}>Transfer</Button>
       </Link>
       <Button icon={exitIcon} onClick={dismissUI}>
-        Exit(dismiss)
+        Exit
       </Button>
     </ActionButtons>
   </div>

@@ -14,17 +14,39 @@ export const InputBox = styled.div`
   border-radius: 5px;
   margin: 0 15px;
   padding: 15px;
-  margin-bottom: 144px;
+  margin-bottom: 167px;
 
-  p :nth-child(1) {
+  p {
     color: #979797;
-    font-size: 30px;
-    margin: 5px 0;
+    font-size: 25px;
+    margin: 15px 0;
   }
   input {
     width: 425px;
     height: 50px;
-    margin-top: 30px;
+    margin-top: 10px;
+    border: 2px solid #c7c7c7;
+    border-radius: 5px;
+    font-size: 30px;
+  }
+`
+
+export const TransferBox = styled.div`
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  margin: 0 15px;
+  padding: 15px;
+  margin-bottom: 47px;
+
+  p {
+    color: #979797;
+    font-size: 25px;
+    margin: 15px 0;
+  }
+  input {
+    width: 425px;
+    height: 50px;
+    margin-top: 10px;
     border: 2px solid #c7c7c7;
     border-radius: 5px;
     font-size: 30px;
@@ -35,7 +57,7 @@ export const AccountBox = styled.div`
   border: 1px solid #c7c7c7;
   border-radius: 5px;
   margin: 0 15px;
-  margin-bottom: 52px;
+  margin-bottom: 35px;
 
   p :nth-child(1) {
     color: #979797;

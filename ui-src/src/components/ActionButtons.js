@@ -9,7 +9,7 @@ export const Button = ({ icon, children, onClick }) => (
 )
 
 export const ActionButtons = styled.div`
-  margin-top: 29px;
+  margin-top: 15px;
   cursor: pointer;
 
   a {
