@@ -11,6 +11,7 @@ export const Button = ({ icon, children, onClick }) => (
 export const ActionButtons = styled.div`
   margin-top: 15px;
   cursor: pointer;
+  user-select: none;
 
   a {
     color: #979797;
@@ -18,12 +19,17 @@ export const ActionButtons = styled.div`
   }
 `
 const StyledButton = styled.div`
-  background-color: #e7e6e6;
+  background-color: #eaeaea;
   border-top: 2px solid #858585;
   height: 80px;
   display: flex;
   align-items: flex-start;
   padding: 15px;
+  transition: background-color 0.15s ease-in;
+
+  :hover {
+    background-color: white;
+  }
 `
 
 const ButtonIcon = styled.div`
