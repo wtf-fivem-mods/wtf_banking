@@ -27,7 +27,7 @@ const StyledButton = styled.div`
   padding: 15px;
   transition: background-color 0.15s ease-in;
 
-  :hover {
+  &:hover {
     background-color: white;
   }
 `
