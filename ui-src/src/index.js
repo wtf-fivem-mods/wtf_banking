@@ -32,3 +32,18 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
+
+if (module.hot) {
+  module.hot.accept('./components/App', () => {
+    const NextApp = require('./components/App').default
+    ReactDOM.render(
+      <Provider store={store}>
+        <Router>
+          {isDebug ? <Debug /> : null}
+          <NextApp />
+        </Router>
+      </Provider>,
+      document.getElementById('root')
+    )
+  })
+}
