@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'redux-zero/react'
 import actions from '../actions'
@@ -8,22 +8,30 @@ import withdrawalIcon from './images/wtf-withdrawal2-icon.png'
 import { InputBox, Title } from './UI'
 
 export default connect(
-  () => {},
+  ({ balance }) => ({ balance }),
   actions
-)(() => (
-  <div>
-    <Title>Checking account Balance: $999,999.00</Title>
-    <InputBox>
-      <p>Amount to withdraw:</p>
-      <input required pattern="[0-9]" />
-    </InputBox>
-    <ActionButtons>
-      <Link to="/">
-        <Button icon={withdrawalIcon}>Withdraw</Button>
-      </Link>
-      <Link to="/">
-        <Button icon={exitIcon}>Cancel</Button>
-      </Link>
-    </ActionButtons>
-  </div>
-))
+)(({ balance, sendWithdraw }) => {
+  const [amount, setAmount] = useState('')
+  return (
+    <div>
+      <Title>Checking account Balance: ${balance.toLocaleString()}.00</Title>
+      <InputBox>
+        <p>Amount to withdraw:</p>
+        <input
+          required
+          pattern="[0-9]"
+          value={amount}
+          onChange={e => setAmount(e.target.value)}
+        />
+      </InputBox>
+      <ActionButtons>
+        <Button icon={withdrawalIcon} onClick={() => sendWithdraw(amount)}>
+          Withdraw
+        </Button>
+        <Link to="/">
+          <Button icon={exitIcon}>Back</Button>
+        </Link>
+      </ActionButtons>
+    </div>
+  )
+})

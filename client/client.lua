@@ -32,6 +32,11 @@ function onSendDeposit(character, amount)
     -- print(string.format("onSendDeposit: %s %s - %d", character.firstName, character.lastName, amount))
 end
 
+function onSendWithdraw(character, amount)
+    print("onSendWithdraw: " .. character.firstName .. " " .. character.lastName .. " - " .. tostring(amount))
+    -- print(string.format("onSendWithdraw: %s %s - %d", character.firstName, character.lastName, amount))
+end
+
 RegisterNUICallback(
     "sendDeposit",
     function(data, cb)
@@ -40,5 +45,16 @@ RegisterNUICallback(
 
         local c = WTF.GetCharacter()
         onSendDeposit(c, data.amount)
+    end
+)
+
+RegisterNUICallback(
+    "sendWithdraw",
+    function(data, cb)
+        cb("ok")
+        SetNuiFocus(false, false)
+
+        local c = WTF.GetCharacter()
+        onSendWithdraw(c, data.amount)
     end
 )

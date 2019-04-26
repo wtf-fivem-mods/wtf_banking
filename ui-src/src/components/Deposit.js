@@ -29,7 +29,7 @@ export default connect(
           Deposit
         </Button>
         <Link to="/">
-          <Button icon={exitIcon}>Cancel</Button>
+          <Button icon={exitIcon}>Back</Button>
         </Link>
       </ActionButtons>
     </div>
