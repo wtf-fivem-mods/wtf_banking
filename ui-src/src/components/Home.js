@@ -10,14 +10,14 @@ import withdrawalIcon from './images/wtf-withdrawal2-icon.png'
 import { AccountBox, Title } from './UI'
 
 export default connect(
-  () => {},
+  ({ balance }) => ({ balance }),
   actions
-)(({ dismissUI }) => (
+)(({ balance, dismissUI }) => (
   <div>
     <Title>Your Account:</Title>
     <AccountBox>
       <p>Checking ... 1337</p>
-      <p>$999,999.00</p>
+      <p>${balance.toLocaleString()}.00</p>
       <p>Available Balance</p>
     </AccountBox>
     <ActionButtons>

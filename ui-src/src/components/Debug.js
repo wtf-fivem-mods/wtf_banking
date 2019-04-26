@@ -6,9 +6,9 @@ import actions from '../actions'
 import gtaBg from './images/gtabg.png'
 
 export default connect(
-  ({ shown }) => ({ shown }),
+  ({ shown, balance }) => ({ shown, balance }),
   actions
-)(({ shown, showUI }) => (
+)(({ shown, balance, showUI, setBalance }) => (
   <Header>
     <GTABackgroundStyle />
     <nav>
@@ -20,6 +20,12 @@ export default connect(
       ) : (
         <button onClick={() => showUI(true)}>Show</button>
       )}
+      <input
+        value={balance}
+        onChange={e => setBalance(e.target.value)}
+        placeholder="setBalance"
+        type="text"
+      />
     </nav>
   </Header>
 ))

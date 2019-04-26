@@ -14,6 +14,9 @@ window.addEventListener('message', e => {
     case 'open':
       boundActions.showUI(true)
       break
+    case 'setBalance':
+      boundActions.setBalance(e.data.balance)
+      break
     default:
   }
 })
