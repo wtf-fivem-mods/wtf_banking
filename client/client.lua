@@ -22,7 +22,8 @@ Citizen.CreateThread(
 
 RegisterNUICallback(
     "dismiss",
-    function()
+    function(_, cb)
+        cb("ok")
         SetNuiFocus(false, false)
     end
 )

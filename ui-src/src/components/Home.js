@@ -13,9 +13,10 @@ export default () => {
   const { showUI } = useAppActions()
 
   function handleOnDismiss() {
-    fetch('http://wtf_banking/dismiss', { method: 'POST' }).finally(() =>
-      showUI(false)
-    )
+    fetch('http://wtf_banking/dismiss', {
+      method: 'POST',
+      body: JSON.stringify({}),
+    }).finally(() => showUI(false))
   }
 
   return (
