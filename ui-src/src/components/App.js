@@ -1,31 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route } from 'react-router'
-import { connect } from 'redux-zero/react'
+import { HashRouter as Router } from 'react-router-dom'
 import styled, { createGlobalStyle } from 'styled-components/macro'
-import actions from '../actions'
+import { useAppActions, useAppState } from '../context'
+import messageListener from '../messageListener'
+import { IsDev } from '../state'
+import Debug from './Debug'
+import Deposit from './Deposit'
 import Header from './Header'
 import Home from './Home'
 import Test from './Test'
-import Deposit from './Deposit'
-import Withdrawal from './Withdrawal'
 import Transfer from './Transfer'
+import Withdrawal from './Withdrawal'
 
-export default connect(
-  ({ shown }) => ({ shown }),
-  actions
-)(({ shown }) => (
-  <>
-    <GlobalStyle />
-    <App shown={shown}>
-      <Header />
-      <Route exact path="/" component={Home} />
-      <Route path="/test" component={Test} />
-      <Route path="/deposit" component={Deposit} />
-      <Route path="/withdrawal" component={Withdrawal} />
-      <Route path="/transfer" component={Transfer} />
-    </App>
-  </>
-))
+export default () => {
+  const { shown } = useAppState()
+  const actions = useAppActions()
+  useEventListener('message', messageListener(actions))
+
+  return (
+    <Router>
+      <GlobalStyle />
+      {IsDev ? <Debug /> : null}
+      <App shown={shown}>
+        <Header />
+        <Route exact path="/" component={Home} />
+        <Route path="/test" component={Test} />
+        <Route path="/deposit" component={Deposit} />
+        <Route path="/withdrawal" component={Withdrawal} />
+        <Route path="/transfer" component={Transfer} />
+      </App>
+    </Router>
+  )
+}
+
+function useEventListener(type, listener) {
+  useEffect(() => {
+    window.addEventListener(type, listener)
+    return () => {
+      window.removeEventListener(type, listener)
+    }
+  })
+}
 
 const App = styled.div`
   width: 500px;

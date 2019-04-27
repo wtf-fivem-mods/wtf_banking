@@ -1,34 +1,34 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'redux-zero/react'
 import styled, { createGlobalStyle } from 'styled-components/macro'
-import actions from '../actions'
+import { useAppActions, useAppState } from '../context'
 import gtaBg from './images/gtabg.png'
 
-export default connect(
-  ({ shown, balance }) => ({ shown, balance }),
-  actions
-)(({ shown, balance, showUI, setBalance }) => (
-  <Header>
-    <GTABackgroundStyle />
-    <nav>
-      <span>DEBUG MENU</span>
-      <Link to="/">Home</Link>
-      <Link to="/test">Test</Link>
-      {shown ? (
-        <button onClick={() => showUI(false)}>Hide</button>
-      ) : (
-        <button onClick={() => showUI(true)}>Show</button>
-      )}
-      <input
-        value={balance}
-        onChange={e => setBalance(e.target.value)}
-        placeholder="setBalance"
-        type="text"
-      />
-    </nav>
-  </Header>
-))
+export default () => {
+  const { shown, balance } = useAppState()
+  const { showUI, setBalance } = useAppActions()
+  return (
+    <Header>
+      <GTABackgroundStyle />
+      <nav>
+        <span>DEBUG MENU</span>
+        <Link to="/">Home</Link>
+        <Link to="/test">Test</Link>
+        {shown ? (
+          <button onClick={() => showUI(false)}>Hide</button>
+        ) : (
+          <button onClick={() => showUI(true)}>Show</button>
+        )}
+        <input
+          value={balance}
+          onChange={e => setBalance(e.target.value)}
+          placeholder="setBalance"
+          type="text"
+        />
+      </nav>
+    </Header>
+  )
+}
 
 const Header = styled.header`
   position: fixed;

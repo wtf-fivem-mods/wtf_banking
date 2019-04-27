@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'redux-zero/react'
-import actions from '../actions'
+import { useAppActions, useAppState } from '../context'
 import { ActionButtons, Button } from './ActionButtons'
 import depositIcon from './images/wtf-deposit2-icon.png'
 import exitIcon from './images/wtf-exit2-icon.png'
 import { InputBox, Title } from './UI'
 
-export default connect(
-  ({ balance }) => ({ balance }),
-  actions
-)(({ balance, sendDeposit }) => {
+export default () => {
+  const { balance } = useAppState()
+  const { showUI } = useAppActions()
   const [amount, setAmount] = useState('')
+
+  function sendDeposit() {
+    fetch('http://wtf_banking/sendDeposit', {
+      method: 'POST',
+      body: JSON.stringify({ amount }),
+    }).finally(() => showUI(false))
+  }
+
   return (
     <div>
       <Title>Checking account Balance: ${balance.toLocaleString()}.00</Title>
@@ -25,7 +31,7 @@ export default connect(
         />
       </InputBox>
       <ActionButtons>
-        <Button icon={depositIcon} onClick={() => sendDeposit(amount)}>
+        <Button icon={depositIcon} onClick={sendDeposit}>
           Deposit
         </Button>
         <Link to="/">
@@ -34,4 +40,4 @@ export default connect(
       </ActionButtons>
     </div>
   )
-})
+}
