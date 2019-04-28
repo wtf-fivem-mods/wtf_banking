@@ -1,9 +1,19 @@
 function GetBalance(character, account)
-    return DB.GetBalance(character.uid, account)
+    return DB.GetBalance(character.uid, account) or 0
 end
 
 function MakeDeposit(character, amount)
     return DB.IncrementBalance(character.uid, "checking", amount)
+end
+
+function MakeWithdrawal(character, amount)
+    return DB.DecrementBalance(character.uid, "checking", amount)
+end
+
+function MakeTransfer(character, payeeUID, amount)
+    -- TODO: make transactional
+    DB.IncrementBalance(payeeUID, "checking", amount)
+    return DB.DecrementBalance(character.uid, "checking", amount)
 end
 
 --- Keycode Table

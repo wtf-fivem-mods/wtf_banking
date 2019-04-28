@@ -36,19 +36,6 @@ function onSendDeposit(character, amount)
     -- print(string.format("onSendDeposit: %s %s - %d", character.firstName, character.lastName, amount))
 end
 
-function onSendWithdraw(character, amount)
-    print("onSendWithdraw: " .. character.firstName .. " " .. character.lastName .. " - " .. tostring(amount))
-    -- print(string.format("onSendWithdraw: %s %s - %d", character.firstName, character.lastName, amount))
-end
-
-function onSendTransfer(character, amount, payee)
-    print(
-        "onSendTransfer: " ..
-            character.firstName .. " " .. character.lastName .. " - " .. tostring(amount) .. " to " .. payee
-    )
-    -- print(string.format("onSendWithdraw: %s %s - %d", character.firstName, character.lastName, amount))
-end
-
 RegisterNUICallback(
     "sendDeposit",
     function(data, cb)
@@ -59,6 +46,13 @@ RegisterNUICallback(
         onSendDeposit(c, data.amount)
     end
 )
+
+function onSendWithdraw(character, amount)
+    local balance = MakeWithdrawal(character, amount)
+    SendNUIMessage({type = "setBalance", balance = balance})
+    print("onSendWithdraw: " .. character.firstName .. " " .. character.lastName .. " - " .. tostring(amount))
+    -- print(string.format("onSendWithdraw: %s %s - %d", character.firstName, character.lastName, amount))
+end
 
 RegisterNUICallback(
     "sendWithdraw",
@@ -71,6 +65,17 @@ RegisterNUICallback(
     end
 )
 
+function onSendTransfer(character, payeeUID, amount)
+    -- TODO: need to send notification to payee
+    local balance = MakeTransfer(character, payeeUID, amount)
+    SendNUIMessage({type = "setBalance", balance = balance})
+    print(
+        "onSendTransfer: " ..
+            character.firstName .. " " .. character.lastName .. " - " .. tostring(amount) .. " to " .. payeeUID
+    )
+    -- print(string.format("onSendWithdraw: %s %s - %d", character.firstName, character.lastName, amount))
+end
+
 RegisterNUICallback(
     "sendTransfer",
     function(data, cb)
@@ -78,6 +83,6 @@ RegisterNUICallback(
         SetNuiFocus(false, false)
 
         local c = WTF.GetCharacter()
-        onSendTransfer(c, data.amount, data.payee)
+        onSendTransfer(c, data.payee, data.amount)
     end
 )
