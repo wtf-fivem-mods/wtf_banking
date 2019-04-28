@@ -1,7 +1,8 @@
 Citizen.CreateThread(
     function()
         local character = WTF.WaitForCharacter()
-        SendNUIMessage({type = "setBalance", balance = 1337})
+        local balance = GetBalance(character, "checking")
+        SendNUIMessage({type = "setBalance", balance = balance})
     end
 )
 
@@ -29,6 +30,8 @@ RegisterNUICallback(
 )
 
 function onSendDeposit(character, amount)
+    local balance = MakeDeposit(character, amount)
+    SendNUIMessage({type = "setBalance", balance = balance})
     print("onSendDeposit: " .. character.firstName .. " " .. character.lastName .. " - " .. tostring(amount))
     -- print(string.format("onSendDeposit: %s %s - %d", character.firstName, character.lastName, amount))
 end

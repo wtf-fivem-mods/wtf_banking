@@ -1,6 +1,8 @@
 client_scripts {
     "@wtf_characters/lib/api.lua",
-    "lib.lua",
+    "@wtf_redis/lib/redis.lua",
+    "lib/db.lua",
+    "lib/lib.lua",
     "client/client.lua"
 }
 
@@ -14,5 +16,6 @@ files {
 }
 
 dependencies {
-    "wtf_characters"
+    "wtf_characters",
+    "wtf_redis"
 }
