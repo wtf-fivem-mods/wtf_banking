@@ -15,22 +15,29 @@ import Withdrawal from './Withdrawal'
 
 export default () => {
   const { shown } = useAppState()
+  return (
+    <Container shown={shown}>
+      <Header />
+      <Route exact path="/" component={Home} />
+      <Route path="/test" component={Test} />
+      <Route path="/deposit" component={Deposit} />
+      <Route path="/withdrawal" component={Withdrawal} />
+      <Route path="/transfer" component={Transfer} />
+    </Container>
+  )
+}
+
+function Container({ children, shown }) {
   const actions = useAppActions()
   useEventListener('message', messageListener(actions))
-
   return (
-    <Router>
+    <>
       <GlobalStyle />
-      {IsDev ? <Debug /> : null}
-      <App shown={shown}>
-        <Header />
-        <Route exact path="/" component={Home} />
-        <Route path="/test" component={Test} />
-        <Route path="/deposit" component={Deposit} />
-        <Route path="/withdrawal" component={Withdrawal} />
-        <Route path="/transfer" component={Transfer} />
-      </App>
-    </Router>
+      <Router>
+        {IsDev ? <Debug /> : null}
+        {shown ? <Content>{children}</Content> : null}
+      </Router>
+    </>
   )
 }
 
@@ -43,11 +50,10 @@ function useEventListener(type, listener) {
   })
 }
 
-const App = styled.div`
+const Content = styled.div`
   width: 500px;
   height: 600px;
   background-color: white;
-  display: ${props => (props.shown ? 'block' : 'none')};
 `
 
 const GlobalStyle = createGlobalStyle`

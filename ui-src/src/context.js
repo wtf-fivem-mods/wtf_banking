@@ -1,19 +1,15 @@
-import { createDraft, finishDraft } from 'immer'
-import React from 'react'
+import produce from 'immer'
+import React, { createContext, useContext, useMemo, useReducer } from 'react'
 import { actions, initialState } from './state'
 
-const AppActions = React.createContext()
-const AppState = React.createContext()
-export const useAppActions = () => React.useContext(AppActions)
-export const useAppState = () => React.useContext(AppState)
+const AppActions = createContext()
+const AppState = createContext()
+export const useAppActions = () => useContext(AppActions)
+export const useAppState = () => useContext(AppState)
 
-export const reducer = (state, action) => {
-  const draft = createDraft(state)
-  action(draft)
-  return finishDraft(draft)
-}
+const reducer = (state, action) => produce(state, draft => action(draft))
 
-export const bindActions = (actions, dispatch) => {
+const bindActions = (actions, dispatch) => {
   let bound = {}
   for (let name in actions) {
     bound[name] = (...args) => {
@@ -25,8 +21,8 @@ export const bindActions = (actions, dispatch) => {
 }
 
 export const Provider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
-  const boundActions = bindActions(actions, dispatch)
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const boundActions = useMemo(() => bindActions(actions, dispatch), [dispatch])
   return (
     <AppActions.Provider value={boundActions}>
       <AppState.Provider value={state}>{children}</AppState.Provider>
