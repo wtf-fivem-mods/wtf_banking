@@ -32,8 +32,6 @@ RegisterNUICallback(
 function onSendDeposit(character, amount)
     local balance = MakeDeposit(character, amount)
     SendNUIMessage({type = "setBalance", balance = balance})
-    print("onSendDeposit: " .. character.firstName .. " " .. character.lastName .. " - " .. tostring(amount))
-    -- print(string.format("onSendDeposit: %s %s - %d", character.firstName, character.lastName, amount))
 end
 
 RegisterNUICallback(
@@ -50,8 +48,6 @@ RegisterNUICallback(
 function onSendWithdraw(character, amount)
     local balance = MakeWithdrawal(character, amount)
     SendNUIMessage({type = "setBalance", balance = balance})
-    print("onSendWithdraw: " .. character.firstName .. " " .. character.lastName .. " - " .. tostring(amount))
-    -- print(string.format("onSendWithdraw: %s %s - %d", character.firstName, character.lastName, amount))
 end
 
 RegisterNUICallback(
@@ -69,11 +65,6 @@ function onSendTransfer(character, payeeUID, amount)
     -- TODO: need to send notification to payee
     local balance = MakeTransfer(character, payeeUID, amount)
     SendNUIMessage({type = "setBalance", balance = balance})
-    print(
-        "onSendTransfer: " ..
-            character.firstName .. " " .. character.lastName .. " - " .. tostring(amount) .. " to " .. payeeUID
-    )
-    -- print(string.format("onSendWithdraw: %s %s - %d", character.firstName, character.lastName, amount))
 end
 
 RegisterNUICallback(
