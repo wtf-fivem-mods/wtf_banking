@@ -11,9 +11,10 @@ function MakeWithdrawal(character, amount)
 end
 
 function MakeTransfer(character, payeeUID, amount)
-    -- TODO: make transactional
-    DB.IncrementBalance(payeeUID, "checking", amount)
-    return DB.DecrementBalance(character.uid, "checking", amount)
+    local res = DB.MultiTransferFromTo(character.uid, payeeUID, "checking", amount)
+    assert(res[1] ~= nil, "MakeTransfer: res[1] nil")
+    assert(res[1][2] ~= nil, "MakeTransfer: res[1][2] nil")
+    return res[1][2] -- returns balance of from decrement
 end
 
 --- Keycode Table
