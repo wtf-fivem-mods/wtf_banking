@@ -15,7 +15,10 @@ export default () => {
   function sendTransfer() {
     fetch('http://wtf_banking/sendTransfer', {
       method: 'POST',
-      body: JSON.stringify({ amount, payee }),
+      body: JSON.stringify({
+        amount: parseInt(amount),
+        payee: parseInt(payee),
+      }),
     }).finally(() => showUI(false))
   }
 

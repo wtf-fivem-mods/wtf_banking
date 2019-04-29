@@ -1,8 +1,16 @@
-Citizen.CreateThread(
-    function()
-        local character = WTF.WaitForCharacter()
+local function onReceiveTransfer(data)
+    print("$" .. data.amount .. " from user " .. data.fromUID)
+    local character = WTF.GetCharacter()
+    local balance = GetBalance(character, "checking")
+    SendNUIMessage({type = "setBalance", balance = balance})
+end
+
+WTF.OnCharacterSelect(
+    function(character)
         local balance = GetBalance(character, "checking")
         SendNUIMessage({type = "setBalance", balance = balance})
+
+        WTF.RegisterCharacterEvent("wtf_banking:receiveTransfer", onReceiveTransfer)
     end
 )
 
@@ -61,10 +69,15 @@ RegisterNUICallback(
     end
 )
 
-function onSendTransfer(character, payeeUID, amount)
-    -- TODO: need to send notification to payee
+local function onSendTransfer(character, payeeUID, amount)
+    amount = tonumber(amount)
+    payeeUID = tonumber(payeeUID, base)
+
     local balance = MakeTransfer(character, payeeUID, amount)
     SendNUIMessage({type = "setBalance", balance = balance})
+
+    local data = {fromUID = character.uid, amount = amount}
+    WTF.TriggerCharacterEvent(payeeUID, "wtf_banking:receiveTransfer", data)
 end
 
 RegisterNUICallback(
