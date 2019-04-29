@@ -1,33 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { memo } from 'react'
 import styled, { createGlobalStyle } from 'styled-components/macro'
 import { useAppActions, useAppState } from '../context'
 import gtaBg from './images/gtabg.png'
 
-export default () => {
-  const { shown, balance } = useAppState()
-  const { showUI, setBalance } = useAppActions()
+export default memo(() => {
   return (
     <Header>
       <GTABackgroundStyle />
       <nav>
         <span>DEBUG MENU</span>
-        <Link to="/">Home</Link>
-        <Link to="/test">Test</Link>
-        {shown ? (
-          <button onClick={() => showUI(false)}>Hide</button>
-        ) : (
-          <button onClick={() => showUI(true)}>Show</button>
-        )}
-        <input
-          value={balance}
-          onChange={e => setBalance(e.target.value)}
-          placeholder="setBalance"
-          type="text"
-        />
+        <DebugApp />
+        <DebugBalances />
+        <DebugHUD />
       </nav>
     </Header>
   )
+})
+
+function DebugApp() {
+  const { shown } = useAppState()
+  const { showUI } = useAppActions()
+  return (
+    <button onClick={() => showUI(!shown)}>{shown ? 'Hide' : 'Show'}</button>
+  )
+}
+
+function DebugBalances() {
+  const { balance } = useAppState()
+  const { setBalance } = useAppActions()
+  return (
+    <input
+      value={balance}
+      onChange={e => setBalance(e.target.value)}
+      placeholder="setBalance"
+      type="text"
+    />
+  )
+}
+
+function DebugHUD() {
+  return <span>TODO: DebugHUD</span>
 }
 
 const Header = styled.header`
@@ -36,6 +48,7 @@ const Header = styled.header`
   top: 0;
   width: 100%;
   height: 56px;
+  color: #ccc;
   background: #6d3333;
   line-height: 56px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);

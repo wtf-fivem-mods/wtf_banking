@@ -9,9 +9,9 @@ import Debug from './Debug'
 import Deposit from './Deposit'
 import Header from './Header'
 import Home from './Home'
-import Test from './Test'
 import Transfer from './Transfer'
 import Withdrawal from './Withdrawal'
+import HUD from './HUD'
 
 export default () => {
   const { shown } = useAppState()
@@ -19,7 +19,6 @@ export default () => {
     <Container shown={shown}>
       <Header />
       <Route exact path="/" component={Home} />
-      <Route path="/test" component={Test} />
       <Route path="/deposit" component={Deposit} />
       <Route path="/withdrawal" component={Withdrawal} />
       <Route path="/transfer" component={Transfer} />
@@ -37,6 +36,7 @@ function Container({ children, shown }) {
         {IsDev ? <Debug /> : null}
         {shown ? <Content>{children}</Content> : null}
       </Router>
+      <HUD />
     </>
   )
 }
