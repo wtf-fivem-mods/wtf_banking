@@ -1,37 +1,79 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import styled, { createGlobalStyle } from 'styled-components/macro'
-import fontBankGothic from './fonts/bankgothic.ttf'
-import fontPricedown from './fonts/pdown.ttf'
+import styled from 'styled-components/macro'
 import { useAppActions, useAppState } from '../context'
 
 const el = document.getElementById('hud')
 
-export default () => {
-  const { balance, shown } = useAppState()
-  // const { showHUD } = useAppActions()
-  // useEffect(() => {
-  //   const timeout = setTimeout(() => showHUD(false), 3000)
-  //   return () => {
-  //     clearTimeout(timeout)
-  //   }
-  // })
-  return ReactDOM.createPortal(
-    <>
-      <GlobalStyle />
-      <Container shown={shown}>
-        <Money label="cash" color="#72cb77" value={300} />
-        <Money label="bank" color="#b8e5ba" value={balance.toLocaleString()} />
-        <Money prefix="&ndash;" color="#E84848" value={100} />
-        <Money prefix="+" color="white" value={500} />
-        <Message>
-          Transfer to <b>Bradley Booper</b>
-        </Message>
-      </Container>
-    </>,
-    el
+export default memo(() => {
+  return ReactDOM.createPortal(<HUD />, el)
+})
+
+function HUD() {
+  const { balance, shown, hudShown, hudItems } = useAppState()
+  const { removeFromHUD } = useAppActions()
+  return (
+    <Container shown={shown || hudShown}>
+      <Balances bank={balance} />
+      <HUDItems items={hudItems} removeFromHUD={removeFromHUD} />
+    </Container>
   )
 }
+
+const Balances = memo(({ bank }) => {
+  return (
+    <>
+      <Money label="cash" color="#72cb77" value={300} />
+      <Money label="bank" color="#b8e5ba" value={bank.toLocaleString()} />
+    </>
+  )
+})
+
+const HUDItems = memo(({ items, removeFromHUD }) => {
+  return Object.keys(items).map(key => {
+    const { id, type, amount, message } = items[key]
+    return (
+      <Fading key={id} onRemove={() => removeFromHUD(id)}>
+        <Money
+          prefix={type === 'credit' ? '+' : '–'}
+          color={type === 'credit' ? 'white' : '#E84848'}
+          value={amount}
+        />
+        {message ? (
+          <Message dangerouslySetInnerHTML={{ __html: message }} />
+        ) : null}
+      </Fading>
+    )
+  })
+})
+
+const Fading = memo(({ children, onRemove }) => {
+  const [shown, setShown] = useState(false)
+  const [shrink, setShrink] = useState(true)
+  useEffect(() => {
+    setShown(true) // do after mount to trigger animation
+    const fadeOutTimeout = setTimeout(() => setShown(false), 5000)
+    const shrinkTimeout = setTimeout(() => setShrink(false), 6100)
+    const removeTimeout = setTimeout(onRemove, 7200)
+    return () => {
+      clearTimeout(fadeOutTimeout)
+      clearTimeout(shrinkTimeout)
+      clearTimeout(removeTimeout)
+    }
+  }, [])
+  return (
+    <StyledFading shown={shown} shrink={shrink}>
+      {children}
+    </StyledFading>
+  )
+})
+
+const StyledFading = styled.div`
+  opacity: ${props => (props.shown ? 1 : 0)};
+  max-height: ${props => (props.shrink ? '50vh' : '0vh')};
+  overflow-y: hidden;
+  transition: all 1s ease-out;
+`
 
 const Money = styled(MoneyContainer)`
   color: ${props => props.color};
@@ -40,41 +82,30 @@ const Money = styled(MoneyContainer)`
     padding-right: 0.5em;
     font-size: 0.7em;
   }
-  span:nth-child(1)::before {
-    content: '${props => props.prefix}';
-  }
-  span:nth-child(2)::before {
-    position: relative;
+  span::before {
     content: '$';
+    position: relative;
     display: inline-block;
     right: -0.03em;
     transform: scale(0.85, 1.12);
   }
 `
 
-function MoneyContainer({ className, value }) {
+function MoneyContainer({ className, prefix, value }) {
   return (
     <div className={className}>
-      <span />
+      {prefix}
       <span>{value.toLocaleString()}</span>
     </div>
   )
 }
 
-const GlobalStyle = createGlobalStyle`
-  :root {
-    --font-size: 60px;
-  }
-
-  @font-face {
-      font-family: 'bankgothic';
-      src: url(${fontBankGothic})
-  }
-
-  @font-face {
-    font-family: 'Pricedown';
-    src: url(${fontPricedown})
-  }
+const Message = styled.div`
+  font-family: 'bankgothic';
+  width: 9em;
+  position: relative;
+  right: 0;
+  font-size: 0.5em;
 `
 
 const Container = styled.div`
@@ -85,18 +116,11 @@ const Container = styled.div`
   top: 1.4em;
   right: 0.7em;
   color: white;
-  font-size: var(--font-size);
+  font-size: 60px;
   font-family: 'Pricedown';
   user-select: none;
   text-shadow: -0.04em -0.04em 0 #000, 0 -0.04em 0 #000, 0.04em -0.04em 0 #000,
-    0.04em 0 0 #000, 0.04em 0.04em 0 #000, 0 0.04em 0 #000,
-    -0.04em 0.04em 0 #000, -0.04em 0 0 #000;
+    0.06em 0 0 #000, 0.04em 0.04em 0 #000, 0 0.04em 0 #000,
+    -0.06em 0.04em 0 #000, -0.04em 0 0 #000;
   text-align: right;
-`
-
-const Message = styled.div`
-  font-family: 'bankgothic';
-  width: 9em;
-  float: right;
-  font-size: 0.5em;
 `

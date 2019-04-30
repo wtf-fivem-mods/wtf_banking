@@ -39,7 +39,34 @@ function DebugBalances() {
 }
 
 function DebugHUD() {
-  return <span>TODO: DebugHUD</span>
+  const { addToHUD } = useAppActions()
+  function handleAddCredit() {
+    addToHUD({
+      type: 'credit',
+      amount: 100,
+    })
+  }
+  function handleAddDebit() {
+    addToHUD({
+      type: 'debit',
+      amount: 500,
+    })
+  }
+  function handleAddCreditMessage() {
+    addToHUD({
+      type: 'credit',
+      amount: 100,
+      message: 'Hello this is a long message, <b>poop!</b>',
+    })
+  }
+  return (
+    <>
+      HUD:
+      <button onClick={handleAddCredit}>+$</button>
+      <button onClick={handleAddDebit}>-$</button>
+      <button onClick={handleAddCreditMessage}>+$m</button>
+    </>
+  )
 }
 
 const Header = styled.header`
