@@ -49,29 +49,21 @@ const HUDItems = memo(({ items, removeFromHUD }) => {
 
 const Fading = memo(({ children, onRemove }) => {
   const [shown, setShown] = useState(false)
-  const [shrink, setShrink] = useState(true)
   useEffect(() => {
     setShown(true) // do after mount to trigger animation
     const fadeOutTimeout = setTimeout(() => setShown(false), 5000)
-    const shrinkTimeout = setTimeout(() => setShrink(false), 6100)
-    const removeTimeout = setTimeout(onRemove, 7200)
+    const removeTimeout = setTimeout(onRemove, 6100)
     return () => {
       clearTimeout(fadeOutTimeout)
-      clearTimeout(shrinkTimeout)
       clearTimeout(removeTimeout)
     }
   }, [])
-  return (
-    <StyledFading shown={shown} shrink={shrink}>
-      {children}
-    </StyledFading>
-  )
+  return <StyledFading shown={shown}>{children}</StyledFading>
 })
 
 const StyledFading = styled.div`
   opacity: ${props => (props.shown ? 1 : 0)};
-  max-height: ${props => (props.shrink ? '50vh' : '0vh')};
-  overflow-y: hidden;
+  max-height: ${props => (props.shown ? '50vh' : '0vh')};
   transition: all 1s ease-out;
 `
 

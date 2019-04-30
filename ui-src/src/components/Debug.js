@@ -31,7 +31,7 @@ function DebugBalances() {
   return (
     <input
       value={balance}
-      onChange={e => setBalance(e.target.value)}
+      onChange={e => setBalance(e.target.value || 0)}
       placeholder="setBalance"
       type="text"
     />
