@@ -6,6 +6,14 @@ export default actions => e => {
     case 'setBalance':
       actions.setBalance(e.data.balance)
       break
+    case 'addToHUD':
+      const { hudType, amount, message } = e.data
+      actions.addToHUD({
+        type: hudType,
+        amount: amount,
+        message: message,
+      })
+      break
     default:
   }
 }
