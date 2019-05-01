@@ -10,11 +10,11 @@ export default memo(() => {
 })
 
 function HUD() {
-  const { balance, shown, hudShown, hudItems } = useAppState()
+  const { bankBalance, shown, hudShown, hudItems } = useAppState()
   const { removeFromHUD } = useAppActions()
   return (
     <Container shown={shown || hudShown}>
-      <Balances bank={balance} />
+      <Balances bank={bankBalance} />
       <HUDItems items={hudItems} removeFromHUD={removeFromHUD} />
     </Container>
   )

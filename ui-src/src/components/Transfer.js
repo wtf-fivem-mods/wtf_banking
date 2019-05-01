@@ -7,7 +7,7 @@ import { TransferBox, Title } from './UI'
 import { useAppState, useAppActions } from '../context'
 
 export default () => {
-  const { balance } = useAppState()
+  const { bankBalance } = useAppState()
   const { showUI } = useAppActions()
   const [amount, setAmount] = useState('')
   const [payee, setPayee] = useState('')
@@ -24,7 +24,7 @@ export default () => {
 
   return (
     <div>
-      <Title>Checking account Balance: ${balance.toLocaleString()}.00</Title>
+      <Title>Bank account Balance: ${bankBalance.toLocaleString()}.00</Title>
       <TransferBox>
         <p>Transfer amount:</p>
         <input

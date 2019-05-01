@@ -1,8 +1,8 @@
 local function onReceiveTransfer(data)
     local amount = tonumber(data.amount)
     local character = WTF.GetCharacter()
-    local balance = GetBalance(character, "checking")
-    SendNUIMessage({type = "setBalance", balance = balance})
+    local balance = GetBalance(character, "bank")
+    SendNUIMessage({type = "setBankBalance", balance = balance})
 
     local message = "Received from <b>" .. tostring(data.fromUID) .. "</b>"
     SendNUIMessage({type = "addToHUD", hudType = "credit", amount = amount, message = message})
@@ -10,8 +10,8 @@ end
 
 WTF.OnCharacterSelect(
     function(character)
-        local balance = GetBalance(character, "checking")
-        SendNUIMessage({type = "setBalance", balance = balance})
+        local balance = GetBalance(character, "bank")
+        SendNUIMessage({type = "setBankBalance", balance = balance})
 
         WTF.RegisterCharacterEvent("wtf_banking:receiveTransfer", onReceiveTransfer)
     end
@@ -42,7 +42,7 @@ RegisterNUICallback(
 
 function onSendDeposit(character, amount)
     local balance = MakeDeposit(character, amount)
-    SendNUIMessage({type = "setBalance", balance = balance})
+    SendNUIMessage({type = "setBankBalance", balance = balance})
 end
 
 RegisterNUICallback(
@@ -58,7 +58,7 @@ RegisterNUICallback(
 
 function onSendWithdraw(character, amount)
     local balance = MakeWithdrawal(character, amount)
-    SendNUIMessage({type = "setBalance", balance = balance})
+    SendNUIMessage({type = "setBankBalance", balance = balance})
 end
 
 RegisterNUICallback(
@@ -77,7 +77,7 @@ local function onSendTransfer(character, payeeUID, amount)
     payeeUID = tonumber(payeeUID)
 
     local balance = MakeTransfer(character, payeeUID, amount)
-    SendNUIMessage({type = "setBalance", balance = balance})
+    SendNUIMessage({type = "setBankBalance", balance = balance})
 
     local message = "Transferred to <b>" .. tostring(payeeUID) .. "</b>"
     SendNUIMessage({type = "addToHUD", hudType = "debit", amount = amount, message = message})

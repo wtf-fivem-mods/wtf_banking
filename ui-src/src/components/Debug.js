@@ -26,13 +26,12 @@ function DebugApp() {
 }
 
 function DebugBalances() {
-  const { balance } = useAppState()
-  const { setBalance } = useAppActions()
+  const { bankBalance } = useAppState()
+  const { setBankBalance } = useAppActions()
   return (
     <input
-      value={balance}
-      onChange={e => setBalance(e.target.value || 0)}
-      placeholder="setBalance"
+      value={bankBalance}
+      onChange={e => setBankBalance(e.target.value || 0)}
       type="text"
     />
   )

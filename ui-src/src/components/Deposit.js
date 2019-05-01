@@ -7,7 +7,7 @@ import exitIcon from './images/wtf-exit2-icon.png'
 import { InputBox, Title } from './UI'
 
 export default () => {
-  const { balance } = useAppState()
+  const { bankBalance } = useAppState()
   const { showUI } = useAppActions()
   const [amount, setAmount] = useState('')
 
@@ -20,7 +20,7 @@ export default () => {
 
   return (
     <div>
-      <Title>Checking account Balance: ${balance.toLocaleString()}.00</Title>
+      <Title>Bank account Balance: ${bankBalance.toLocaleString()}.00</Title>
       <InputBox>
         <p>Amount to deposit:</p>
         <input

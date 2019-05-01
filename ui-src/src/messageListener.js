@@ -3,8 +3,8 @@ export default actions => e => {
     case 'open':
       actions.showUI(true)
       break
-    case 'setBalance':
-      actions.setBalance(e.data.balance)
+    case 'setBankBalance':
+      actions.setBankBalance(e.data.bankBalance)
       break
     case 'addToHUD':
       const { hudType, amount, message } = e.data

@@ -3,15 +3,15 @@ function GetBalance(character, account)
 end
 
 function MakeDeposit(character, amount)
-    return DB.IncrementBalance(character.uid, "checking", amount)
+    return DB.IncrementBalance(character.uid, "bank", amount)
 end
 
 function MakeWithdrawal(character, amount)
-    return DB.DecrementBalance(character.uid, "checking", amount)
+    return DB.DecrementBalance(character.uid, "bank", amount)
 end
 
 function MakeTransfer(character, payeeUID, amount)
-    local res = DB.MultiTransferFromTo(character.uid, payeeUID, "checking", amount)
+    local res = DB.MultiTransferFromTo(character.uid, payeeUID, "bank", amount)
     assert(res[1] ~= nil, "MakeTransfer: res[1] nil")
     assert(res[1][2] ~= nil, "MakeTransfer: res[1][2] nil")
     return res[1][2] -- returns balance of from decrement

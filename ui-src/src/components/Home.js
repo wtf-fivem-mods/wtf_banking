@@ -9,7 +9,7 @@ import withdrawalIcon from './images/wtf-withdrawal2-icon.png'
 import { AccountBox, Title } from './UI'
 
 export default () => {
-  const { balance } = useAppState()
+  const { bankBalance } = useAppState()
   const { showUI } = useAppActions()
 
   function handleOnDismiss() {
@@ -24,7 +24,7 @@ export default () => {
       <Title>Your Account:</Title>
       <AccountBox>
         <p>Checking ... 1337</p>
-        <p>${balance.toLocaleString()}.00</p>
+        <p>${bankBalance.toLocaleString()}.00</p>
         <p>Available Balance</p>
       </AccountBox>
       <ActionButtons>
