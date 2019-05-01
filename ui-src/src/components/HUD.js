@@ -10,21 +10,29 @@ export default memo(() => {
 })
 
 function HUD() {
-  const { bankBalance, shown, hudShown, hudItems } = useAppState()
+  const { bankBalance, cashBalance, shown, hudShown, hudItems } = useAppState()
   const { removeFromHUD } = useAppActions()
   return (
     <Container shown={shown || hudShown}>
-      <Balances bank={bankBalance} />
+      <Balances bankBalance={bankBalance} cashBalance={cashBalance} />
       <HUDItems items={hudItems} removeFromHUD={removeFromHUD} />
     </Container>
   )
 }
 
-const Balances = memo(({ bank }) => {
+const Balances = memo(({ bankBalance, cashBalance }) => {
   return (
     <>
-      <Money label="cash" color="#72cb77" value={300} />
-      <Money label="bank" color="#b8e5ba" value={bank.toLocaleString()} />
+      <Money
+        label="cash"
+        color="#72cb77"
+        value={cashBalance.toLocaleString()}
+      />
+      <Money
+        label="bank"
+        color="#b8e5ba"
+        value={bankBalance.toLocaleString()}
+      />
     </>
   )
 })

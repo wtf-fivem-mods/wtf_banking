@@ -6,6 +6,9 @@ export default actions => e => {
     case 'setBankBalance':
       actions.setBankBalance(e.data.bankBalance)
       break
+    case 'setCashBalance':
+      actions.setCashBalance(e.data.cashBalance)
+      break
     case 'addToHUD':
       const { hudType, amount, message } = e.data
       actions.addToHUD({

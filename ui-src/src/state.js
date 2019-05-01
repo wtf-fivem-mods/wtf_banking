@@ -6,6 +6,7 @@ export const initialState = {
   shown: IsDev,
   hudShown: false,
   bankBalance: 0,
+  cashBalance: 0,
   hudIDG: 0,
   hudItems: {},
 }
@@ -17,6 +18,9 @@ export const actions = {
   },
   setBankBalance: (draft, balance) => {
     draft.bankBalance = parseInt(balance)
+  },
+  setCashBalance: (draft, balance) => {
+    draft.cashBalance = parseInt(balance)
   },
   addToHUD: (draft, data) => {
     const id = draft.hudIDG++
