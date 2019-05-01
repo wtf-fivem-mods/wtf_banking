@@ -2,19 +2,9 @@ function GetBalance(character, account)
     return DB.GetBalance(character.uid, account) or 0
 end
 
-function MakeDeposit(character, amount)
-    return DB.IncrementBalance(character.uid, "bank", amount)
-end
-
-function MakeWithdrawal(character, amount)
-    return DB.DecrementBalance(character.uid, "bank", amount)
-end
-
-function MakeTransfer(character, payeeUID, amount)
-    local res = DB.MultiTransferFromTo(character.uid, payeeUID, "bank", amount)
-    assert(res[1] ~= nil, "MakeTransfer: res[1] nil")
-    assert(res[1][2] ~= nil, "MakeTransfer: res[1][2] nil")
-    return res[1][2] -- returns balance of from decrement
+function MakeTransfer(options)
+    local res = DB.MultiTransfer(options)
+    return res[1][2], res[2][2]
 end
 
 --- Keycode Table
