@@ -51,9 +51,13 @@ RegisterNUICallback(
 )
 
 local function onSendDeposit(character, amount)
+    if amount > GetBalance(character, "cash") then
+        DrawErrorNotification("Insufficient Cash", string.format("Unable to deposit ~g~$%d", amount))
+        return
+    end
     local cashBalance, bankBalance =
         MakeTransfer {
-        amount = tonumber(amount),
+        amount = amount,
         fromUID = character.uid,
         fromAccount = "cash",
         toUID = character.uid,
@@ -69,14 +73,18 @@ RegisterNUICallback(
         SetNuiFocus(false, false)
 
         local c = WTF.GetCharacter()
-        onSendDeposit(c, data.amount)
+        onSendDeposit(c, tonumber(data.amount))
     end
 )
 
 local function onSendWithdraw(character, amount)
+    if amount > GetBalance(character, "bank") then
+        DrawErrorNotification("Insufficient Funds", string.format("Unable to withdraw ~g~$%d", amount))
+        return
+    end
     local bankBalance, cashBalance =
         MakeTransfer {
-        amount = tonumber(amount),
+        amount = amount,
         fromUID = character.uid,
         fromAccount = "bank",
         toUID = character.uid,
@@ -92,11 +100,15 @@ RegisterNUICallback(
         SetNuiFocus(false, false)
 
         local c = WTF.GetCharacter()
-        onSendWithdraw(c, data.amount)
+        onSendWithdraw(c, tonumber(data.amount))
     end
 )
 
 local function onSendTransfer(character, payeeUID, amount)
+    if amount > GetBalance(character, "cash") then
+        DrawErrorNotification("Insufficient Cash", string.format("Unable to transfer ~g~$%d", amount))
+        return
+    end
     local balance =
         MakeTransfer {
         amount = tonumber(amount),

@@ -1,10 +1,18 @@
 function GetBalance(character, account)
-    return DB.GetBalance(character.uid, account) or 0
+    local balance = DB.GetBalance(character.uid, account)
+    return tonumber(balance) or 0
 end
 
 function MakeTransfer(options)
+    options.amount = tonumber(options.amount)
     local res = DB.MultiTransfer(options)
     return res[1][2], res[2][2]
+end
+
+function DrawErrorNotification(title, text)
+    SetNotificationTextEntry("STRING")
+    AddTextComponentString(string.format("<b>WTF Banking</b>~n~~r~%s~n~~w~%s", title, text))
+    DrawNotification(false, false)
 end
 
 --- Keycode Table
