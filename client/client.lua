@@ -1,38 +1,17 @@
-local function sendNUIBalances(bankBalance, cashBalance)
-    SendNUIMessage(
-        {
-            {type = "setBankBalance", balance = bankBalance},
-            {type = "setCashBalance", balance = cashBalance}
-        }
-    )
-end
-
-local function onReceiveTransfer(data)
-    local amount = tonumber(data.amount)
-    local character = WTF.GetCharacter()
-    local balance = GetBalance(character, "cash")
-    SendNUIMessage({type = "setCashBalance", balance = balance})
-
-    local message = "Received from <b>" .. tostring(data.fromUID) .. "</b>"
-    SendNUIMessage({type = "addToHUD", hudType = "credit", amount = amount, message = message})
-end
-
-WTF.OnCharacterSelect(
-    function(character)
-        local bankBalance = GetBalance(character, "bank")
-        local cashBalance = GetBalance(character, "cash")
-        sendNUIBalances(bankBalance, cashBalance)
-
-        WTF.RegisterCharacterEvent("wtf_banking:receiveTransfer", onReceiveTransfer)
-    end
-)
-
+---
+--- Main loop
+---
 Citizen.CreateThread(
     function()
         -- SetNuiFocus(false, false) -- debug reset on load
+        local character = WTF.WaitForCharacter()
+        UpdateBalances(character)
+
+        -- Register callback if character changes
+        WTF.OnCharacterSelect(UpdateBalances)
 
         while true do
-            Citizen.Wait(1)
+            Citizen.Wait(5)
 
             if IsControlJustPressed(0, Keys.PAGEUP) then
                 SetNuiFocus(true, true)
@@ -50,6 +29,10 @@ RegisterNUICallback(
     end
 )
 
+---
+--- DEPOSIT
+---
+
 local function onSendDeposit(character, amount)
     if amount > GetBalance(character, "cash") then
         DrawErrorNotification("Insufficient Cash", string.format("Unable to deposit ~g~$%d", amount))
@@ -63,7 +46,7 @@ local function onSendDeposit(character, amount)
         toUID = character.uid,
         toAccount = "bank"
     }
-    sendNUIBalances(bankBalance, cashBalance)
+    SendNUIBalances(bankBalance, cashBalance)
 end
 
 RegisterNUICallback(
@@ -76,6 +59,10 @@ RegisterNUICallback(
         onSendDeposit(c, tonumber(data.amount))
     end
 )
+
+---
+--- WITHDRAW
+---
 
 local function onSendWithdraw(character, amount)
     if amount > GetBalance(character, "bank") then
@@ -90,7 +77,7 @@ local function onSendWithdraw(character, amount)
         toUID = character.uid,
         toAccount = "cash"
     }
-    sendNUIBalances(bankBalance, cashBalance)
+    SendNUIBalances(bankBalance, cashBalance)
 end
 
 RegisterNUICallback(
@@ -103,6 +90,10 @@ RegisterNUICallback(
         onSendWithdraw(c, tonumber(data.amount))
     end
 )
+
+---
+--- SEND TRANSFER
+---
 
 local function onSendTransfer(character, payeeUID, amount)
     if amount > GetBalance(character, "cash") then
@@ -136,3 +127,19 @@ RegisterNUICallback(
         onSendTransfer(c, data.payee, data.amount)
     end
 )
+
+---
+--- RECEIVE TRANSFER
+---
+
+local function onReceiveTransfer(data)
+    local amount = tonumber(data.amount)
+    local character = WTF.GetCharacter()
+    local balance = GetBalance(character, "cash")
+    SendNUIMessage({type = "setCashBalance", balance = balance})
+
+    local message = "Received from <b>" .. tostring(data.fromUID) .. "</b>"
+    SendNUIMessage({type = "addToHUD", hudType = "credit", amount = amount, message = message})
+end
+
+WTF.RegisterCharacterEvent("wtf_banking:receiveTransfer", onReceiveTransfer)

@@ -9,6 +9,21 @@ function MakeTransfer(options)
     return res[1][2], res[2][2]
 end
 
+function UpdateBalances(character)
+    local bankBalance = GetBalance(character, "bank")
+    local cashBalance = GetBalance(character, "cash")
+    SendNUIBalances(bankBalance, cashBalance)
+end
+
+function SendNUIBalances(bankBalance, cashBalance)
+    SendNUIMessage(
+        {
+            {type = "setBankBalance", balance = bankBalance},
+            {type = "setCashBalance", balance = cashBalance}
+        }
+    )
+end
+
 function DrawErrorNotification(title, text)
     SetNotificationTextEntry("STRING")
     AddTextComponentString(string.format("<b>WTF Banking</b>~n~~r~%s~n~~w~%s", title, text))
