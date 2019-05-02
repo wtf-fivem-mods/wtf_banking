@@ -102,15 +102,16 @@ local function onSendTransfer(character, payeeUID, amount)
     end
     local balance =
         MakeTransfer {
-        amount = tonumber(amount),
+        amount = amount,
         fromUID = character.uid,
         fromAccount = "cash",
-        toUID = tonumber(payeeUID),
+        toUID = payeeUID,
         toAccount = "cash"
     }
     SendNUIMessage({type = "setCashBalance", balance = balance})
 
-    local message = "Transferred to <b>" .. tostring(payeeUID) .. "</b>"
+    local payee = WTF.WaitForCharacter(payeeUID)
+    local message = string.format("Transferred to %d: <b>%s %s</b>", payeeUID, payee.firstName, payee.lastName)
     SendNUIMessage({type = "addToHUD", hudType = "debit", amount = amount, message = message})
 
     local data = {fromUID = character.uid, amount = amount}
@@ -124,7 +125,7 @@ RegisterNUICallback(
         SetNuiFocus(false, false)
 
         local c = WTF.GetCharacter()
-        onSendTransfer(c, data.payee, data.amount)
+        onSendTransfer(c, tonumber(data.payee), tonumber(data.amount))
     end
 )
 
