@@ -19,7 +19,13 @@ export default () => {
         amount: parseInt(amount),
         payee: parseInt(payee),
       }),
-    }).finally(() => showUI(false))
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.status === 'ok') {
+          return showUI(false)
+        }
+      })
   }
 
   return (

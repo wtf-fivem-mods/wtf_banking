@@ -15,7 +15,13 @@ export default () => {
     fetch('http://wtf_banking/sendDeposit', {
       method: 'POST',
       body: JSON.stringify({ amount }),
-    }).finally(() => showUI(false))
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (json.status === 'ok') {
+          return showUI(false)
+        }
+      })
   }
 
   return (
