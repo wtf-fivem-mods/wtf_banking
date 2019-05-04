@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAppActions, useAppState } from '../context'
 import { ActionButtons, Button } from './ActionButtons'
+import CurrencyInput from './CurrencyInput'
 import exitIcon from './images/wtf-exit2-icon.png'
 import transferIcon from './images/wtf-transfer2-icon.png'
-import { TransferBox, Title } from './UI'
-import { useAppState, useAppActions } from '../context'
+import { Title, TransferBox } from './UI'
 
 export default () => {
   const { bankBalance } = useAppState()
@@ -12,7 +13,8 @@ export default () => {
   const [amount, setAmount] = useState('')
   const [payee, setPayee] = useState('')
 
-  function sendTransfer() {
+  function handleOnSubmit(e) {
+    e.preventDefault()
     fetch('http://wtf_banking/sendTransfer', {
       method: 'POST',
       body: JSON.stringify({
@@ -31,30 +33,27 @@ export default () => {
   return (
     <div>
       <Title>Bank account Balance: ${bankBalance.toLocaleString()}.00</Title>
-      <TransferBox>
-        <p>Transfer amount:</p>
-        <input
-          required
-          pattern="[0-9]"
-          value={amount}
-          onChange={e => setAmount(e.target.value)}
-        />
-        <p>Payee account number:</p>
-        <input
-          required
-          pattern="[0-9]"
-          value={payee}
-          onChange={e => setPayee(e.target.value)}
-        />
-      </TransferBox>
-      <ActionButtons>
-        <Button icon={transferIcon} onClick={sendTransfer}>
-          Transfer
-        </Button>
-        <Link to="/">
-          <Button icon={exitIcon}>Back</Button>
-        </Link>
-      </ActionButtons>
+      <form onSubmit={handleOnSubmit}>
+        <TransferBox>
+          <p>Transfer amount:</p>
+          <CurrencyInput value={amount} onChange={setAmount} required />
+          <p>Payee account number:</p>
+          <input
+            value={payee}
+            onChange={e => setPayee(e.target.value)}
+            required
+            pattern="[0-9]+"
+          />
+        </TransferBox>
+        <ActionButtons>
+          <Button as="button" type="submit" icon={transferIcon}>
+            Transfer
+          </Button>
+          <Link to="/">
+            <Button icon={exitIcon}>Back</Button>
+          </Link>
+        </ActionButtons>
+      </form>
     </div>
   )
 }

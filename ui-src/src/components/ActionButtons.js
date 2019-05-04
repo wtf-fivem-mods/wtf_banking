@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 
-export const Button = ({ icon, children, onClick }) => (
-  <StyledButton onClick={onClick}>
+export const Button = ({ icon, children, onClick, ...props }) => (
+  <StyledButton onClick={onClick} {...props}>
     <ButtonIcon icon={icon} />
     <ButtonTitle>{children}</ButtonTitle>
   </StyledButton>
@@ -19,13 +19,17 @@ export const ActionButtons = styled.div`
   }
 `
 const StyledButton = styled.div`
-  background-color: #eaeaea;
-  border-top: 2px solid #858585;
-  height: 80px;
   display: flex;
   align-items: flex-start;
+  width: 100%;
+  background-color: #eaeaea;
+  border: 0;
+  border-top: 2px solid #858585;
+  height: 80px;
   padding: 15px;
   transition: background-color 0.15s ease-in;
+  outline: 0;
+  cursor: pointer;
 
   &:hover {
     background-color: white;

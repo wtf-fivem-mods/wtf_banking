@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppActions, useAppState } from '../context'
 import { ActionButtons, Button } from './ActionButtons'
+import CurrencyInput from './CurrencyInput'
 import depositIcon from './images/wtf-deposit2-icon.png'
 import exitIcon from './images/wtf-exit2-icon.png'
 import { InputBox, Title } from './UI'
@@ -11,7 +12,8 @@ export default () => {
   const { showUI } = useAppActions()
   const [amount, setAmount] = useState('')
 
-  function sendDeposit() {
+  function handleOnSubmit(e) {
+    e.preventDefault()
     fetch('http://wtf_banking/sendDeposit', {
       method: 'POST',
       body: JSON.stringify({ amount }),
@@ -27,23 +29,20 @@ export default () => {
   return (
     <div>
       <Title>Bank account Balance: ${bankBalance.toLocaleString()}.00</Title>
-      <InputBox>
-        <p>Amount to deposit:</p>
-        <input
-          required
-          pattern="[0-9]"
-          value={amount}
-          onChange={e => setAmount(e.target.value)}
-        />
-      </InputBox>
-      <ActionButtons>
-        <Button icon={depositIcon} onClick={sendDeposit}>
-          Deposit
-        </Button>
-        <Link to="/">
-          <Button icon={exitIcon}>Back</Button>
-        </Link>
-      </ActionButtons>
+      <form onSubmit={handleOnSubmit}>
+        <InputBox>
+          <p>Amount to deposit:</p>
+          <CurrencyInput required value={amount} onChange={setAmount} />
+        </InputBox>
+        <ActionButtons>
+          <Button as="button" type="submit" icon={depositIcon}>
+            Deposit
+          </Button>
+          <Link to="/">
+            <Button icon={exitIcon}>Back</Button>
+          </Link>
+        </ActionButtons>
+      </form>
     </div>
   )
 }
